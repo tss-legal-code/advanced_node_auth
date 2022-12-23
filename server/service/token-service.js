@@ -18,12 +18,12 @@ class TokenService {
 
   async saveToken(userId, refreshToken) {
     // important: this approach provides only one active device per user
-    const tokenData = tokenModel.findOne({ user: userId });
+    const tokenData = await tokenModel.findOne({ user: userId });
     if (tokenData) {
       tokenData.refreshToken = refreshToken;
       return tokenData.save();
     }
-    const token = tokenModel.create({ user: userId, refreshToken });
+    const token = await tokenModel.create({ user: userId, refreshToken });
     return token;
   }
 }

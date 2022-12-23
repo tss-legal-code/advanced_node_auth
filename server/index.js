@@ -7,7 +7,7 @@ const mongoose = require('mongoose');
 
 const {
   PORT = 5000,
-  MONGO_DB // = "mongodb://localhost/advanced_node_auth"
+  MONGO_DB = "mongodb://localhost/advanced_node_auth"
 } = process.env;
 
 const app = express();
@@ -21,7 +21,7 @@ const start = async () => {
     mongoose.set('strictQuery', false);
     await mongoose.connect(
       MONGO_DB,
-      () => console.log('mongodb connected successfully'),
+      () => console.log(`mongodb connected successfully to: ${MONGO_DB}`),
       (err) => console.log(err)
     );
     app.listen(PORT, () => console.log(`server started at ${PORT}`));
