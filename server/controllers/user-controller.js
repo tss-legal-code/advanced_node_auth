@@ -1,31 +1,34 @@
 const userService = require('../service/user-service');
+const { validationResult } = require('express-validator');
+const ApiError = require('../exceptions/api-error');
 
 class UserController {
   async registration(req, res, next) {
     try {
+      const errors = validationResult(req);
+      if (!errors.isEmpty()) {
+        return next(ApiError.BadRequest('Validation error', errors.array()));
+      }
       const { email, password } = req.body;
       const userData = await userService.registration(email, password);
       res.cookie('refreshToken', userData.refreshToken, { maxAge: 30 * 24 * 60 * 60 * 1000, httpOnly: true });
       return res.json(userData);
     } catch (error) {
-      console.log(error);
-      res.status(400).json({ message: "Registration error" });
+      next(error);
     }
   }
   async login(req, res, next) {
     try {
       res.json('server works');
     } catch (error) {
-      console.log(error);
-      res.status(400).json({ message: "Login error" });
+      next(error);
     }
   }
   async logout(req, res, next) {
     try {
       res.json('server works');
     } catch (error) {
-      console.log(error);
-      res.status(400).json({ message: "Logout error" });
+      next(error);
     }
   }
   async activate(req, res, next) {
@@ -34,34 +37,23 @@ class UserController {
       await userService.activate(activationLink);
       return res.redirect(process.env.CLIENT_URL);
     } catch (error) {
-      console.log(error);
-      res.status(400).json({ message: "Activation error" });
+      next(error);
     }
   }
   async refresh(req, res, next) {
     try {
       res.json('server works');
     } catch (error) {
-      console.log(error);
-      res.status(400).json({ message: "Refresh error" });
+      next(error);
     }
   }
   async getUsers(req, res, next) {
     try {
       res.json([123, '456']);
     } catch (error) {
-      console.log(error);
-      res.status(400).json({ message: "Get users error" });
+      next(error);
     }
   }
-  // async registration(req, res, next){
-  //   try {
-  //     res.json('server works');
-  //   } catch (error) {
-  //     console.log(error);
-  //     res.status(400).json({ message: "Registration error" });
-  //   }
-  // }
 }
 
 module.exports = new UserController();
