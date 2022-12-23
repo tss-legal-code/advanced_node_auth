@@ -1,13 +1,14 @@
 require('dotenv').config();
 const express = require('express');
-const mongoose = require('mongoose');
 const cors = require('cors');
 const cookieParser = require('cookie-parser');
+const router = require('./router/index');
+const mongoose = require('mongoose');
+
 const {
   PORT = 5000,
-  MONGO_DB = "mongodb://localhost/advanced_node_auth"
+  MONGO_DB // = "mongodb://localhost/advanced_node_auth"
 } = process.env;
-const router = require('./router/index');
 
 const app = express();
 app.use(express.json());

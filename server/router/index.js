@@ -1,12 +1,12 @@
 const { Router } = require('express');
-
+const userController = require('../controllers/user-controller');
 const router = new Router();
 
-router.post('/registration', async () => { });
-router.post('/login', async () => { });
-router.post('/logout', async () => { });
-router.get('/activete/:link', async () => { });
-router.get('/refresh', async () => { });
-router.get('/users', async () => { });
+router.post('/registration', userController.registration);
+router.post('/login', userController.login);
+router.post('/logout', userController.logout);
+router.get('/activete/:link', userController.activate);
+router.get('/refresh', userController.refresh);
+router.get('/users', userController.getUsers);
 
 module.exports = router;
