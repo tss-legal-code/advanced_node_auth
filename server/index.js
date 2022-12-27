@@ -8,13 +8,17 @@ const errorMiddleware = require('./middlewares/error-middleware');
 
 const {
   PORT = 5000,
-  MONGO_DB = "mongodb://localhost/advanced_node_auth"
+  MONGO_DB = "mongodb://localhost/advanced_node_auth",
+  CLIENT_URL = 'localhost:3000'
 } = process.env;
 
 const app = express();
 app.use(express.json());
 app.use(cookieParser());
-app.use(cors());
+app.use(cors({
+  credentials: true,
+  origin: CLIENT_URL,
+}));
 app.use('/api', router);
 app.use(errorMiddleware);
 
